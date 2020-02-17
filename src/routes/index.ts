@@ -1,29 +1,12 @@
 import Router from 'koa-router';
+import * as IndexController from '../controller/index'
 const router = new Router();
 
-const index = async (ctx:Router.RouterContext, next:any) => {
-    ctx.body = 'Hello!dsddss'
-};
-router.get('/', index);
-router.post('/', index);
 
-
-const json = async (ctx:Router.RouterContext, next:any) => {
-    ctx.body = {
-        query: ctx.request.query,
-        body: ctx.request.body,
-        headers: ctx.request.headers
-    }
-};
-router.get('/json', json);
-router.post('/json', json);
-
-
-const string = async (ctx:Router.RouterContext, next:any) => {
-    ctx.body = 'welcome to Koa!';
-};
-router.get('/string', string);
-router.post('/string', string);
+router.prefix('/api/index');
+router.get('/swiper', IndexController.indexSwiper);
+router.get('/slider', IndexController.indexSlider);
+// router.post('/', index);
 
 
 export default router;

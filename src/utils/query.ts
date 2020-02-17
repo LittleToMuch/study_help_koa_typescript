@@ -13,8 +13,11 @@ export const query = (sql: string) => {
           reject(err);
         } else {
           connection.query(sql, (err: never, result: any, fields) => {
-            if (err) reject(err);
-            else resolve(result);
+            if (err) {
+              reject(err);
+            } else {
+              resolve(result);
+            }
             connection.release();
           });
         }
