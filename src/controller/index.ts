@@ -3,7 +3,6 @@ import * as IndexService from '../service/index'
 
 export const indexSwiper = async (ctx: Router.RouterContext, next: any) => {
     try {
-        console.log(ctx.request.query);
         const data = await IndexService.indexSwiper()
         ctx.body = data
     } catch (e) {
@@ -14,7 +13,6 @@ export const indexSwiper = async (ctx: Router.RouterContext, next: any) => {
 
 export const indexSlider = async (ctx: Router.RouterContext, next: any) => {
     try {
-        console.log(ctx.request.query);
         const data = await IndexService.indexSlider()
         ctx.body = data
     } catch (e) {

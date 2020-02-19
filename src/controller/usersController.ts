@@ -3,11 +3,13 @@ import * as UserService from "../service/usersService";
 import * as svgCaptcha from "svg-captcha";
 import { Level } from '../utils/userType'
 
+
 export const token = async (ctx: Router.RouterContext, next: any) => {
   try {
     let data = await UserService.token(ctx.state.user)
     if (data) {
       ctx.body = { code: 200, data: ctx.state.user.userInfo, msg: '身份有效', isAuth: true }
+      
     } else {
       ctx.body = { code: 1234, msg: '请重新登陆', isAuth: false}
     }
@@ -30,9 +32,6 @@ export const register = async (ctx: RouterContext<any, any>, next: any) => {
 
 export const login = async (ctx: RouterContext<any, any>, next: any) => {
   const { username, password, captcha } = ctx.request.body
-  // console.log(ctx.request.body);
-  console.log(ctx.session);
-  
   if (captcha.toLocaleLowerCase() === ctx.session.captcha) {
     ctx.session.captcha = null
     let data = await UserService.login({ username, password })
@@ -43,6 +42,56 @@ export const login = async (ctx: RouterContext<any, any>, next: any) => {
     ctx.body = {code: 400}
   }
 };
+
+export const vertifyOldpsw = async (ctx: RouterContext, next: any) => {
+  try {
+    const { password } = ctx.request.body
+    const res = await UserService.vertifyOldpsw(password as string)
+    ctx.body = res
+  } catch (e) {
+    console.warn(e)
+    ctx.body = { code: 400, msg: '未知错误,查看服务器日志' }
+  }
+}
+
+export const setPassword = async (ctx: RouterContext, next: any) => {
+  try {
+    const { id, password } = ctx.request.body
+    const params = { id, password }
+    const res = await UserService.setPassword(params)
+    ctx.body = res
+  } catch (e) {
+    console.warn(e)
+    ctx.body = { code: 400, msg: '未知错误,查看服务器日志' }
+  }
+}
+
+export const uploadAvatar = async (ctx: RouterContext, next: any) => {
+  try {
+    const { avatar } = ctx.request.files!
+    const path = avatar.path.split('\\').slice(-2).join("/")
+    if (avatar) {
+      ctx.body = { code: 200, data: path }
+    } else {
+      ctx.body = { code: 400, msg: '参数错误' }
+    }
+  } catch (e) {
+    console.warn(e)
+    ctx.body = { code: 400, msg: '未知错误,查看服务器日志' }
+  }
+}
+
+export const updateAvatar = async (ctx: RouterContext, next: any) => {
+  try {
+    const { path, id } = ctx.request.body
+    const param = { path, id }
+    const data = await UserService.updateAvatar(param)
+    ctx.body = data
+  } catch (e) {
+    console.warn(e)
+    ctx.body = { code: 400, msg: '未知错误,查看服务器日志' }
+  }
+}
 
 export const captcha = async (ctx: RouterContext<any, any>, next: any) => {
   let captcha = svgCaptcha.create({

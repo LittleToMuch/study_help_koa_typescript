@@ -41,3 +41,13 @@ export interface Slider {
   path: string
 }
 
+export interface UpdateAvatar {
+  id: number
+  path: string
+}
+
+export interface SetPassword {
+  id: number
+  password: string
+}
+

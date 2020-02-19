@@ -5,9 +5,10 @@ import Debug from 'debug';
 const debug = Debug('http');
 
 import views from 'koa-views';
-import bodyParser from 'koa-bodyparser';
 import serve from 'koa-static';
-import session from 'koa-session'
+import session from 'koa-session';
+import koaBody from 'koa-body';
+import path from 'path'
 
 import index from './routes/index';
 import users from './routes/users';
@@ -19,11 +20,24 @@ const CONFIG: Partial<session.opts> = {
     httpOnly: true
 }
 app.use(session(CONFIG, app))
+app.use(koaBody({
+    multipart:true, // 支持文件上传
+    formidable:{
+      uploadDir:path.join(__dirname,'/public/upload/'), // 设置文件上传目录
+      keepExtensions: true,    // 保持文件的后缀
+      maxFieldsSize:2 * 1024 * 1024, // 文件上传大小
+      onFileBegin:(name,file) => { // 文件上传前的设置
+        // console.log(`name: ${name}`);
+        // console.log(file);
+      },
+    }
+}));
 
 // body parser
-app.use(bodyParser({
-    enableTypes:['json', 'form', 'text']
-}));
+// app.use(bodyParser({
+//     enableTypes:['json', 'form', 'text']
+// }));
+
 
 app.use(serve(__dirname + '/public'));
 app.use(views(__dirname + '/views', {
