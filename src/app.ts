@@ -12,6 +12,7 @@ import path from 'path'
 
 import index from './routes/index';
 import users from './routes/users';
+import tutsau from './routes/tutsau';
 
 // koa-session
 app.keys = ['hyh'];
@@ -56,6 +57,7 @@ app.use(async (ctx:Koa.Context, next:Function) => {
 // routes
 app.use(index.routes()).use(index.allowedMethods());
 app.use(users.routes()).use(users.allowedMethods());
+app.use(tutsau.routes()).use(tutsau.allowedMethods());
 
 
 // error-handling
