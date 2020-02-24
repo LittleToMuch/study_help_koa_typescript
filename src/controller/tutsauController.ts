@@ -40,3 +40,13 @@ export const insertTutsau = async (ctx: RouterContext, next: any) => {
     ctx.body = { code: 400, msg: "未知错误,查看服务器日志" };
   }
 };
+
+export const tutsauList = async (ctx: RouterContext, next: any) => {
+  try {
+    const data = await TutsauService.tutsauList()
+    ctx.body = data
+  } catch (error) {
+    console.warn(error);
+    ctx.body = { code: 400, msg: "未知错误,查看服务器日志" };
+  }
+}
