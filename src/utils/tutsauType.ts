@@ -1,11 +1,13 @@
 export interface Tutsau {
-    id?: number
-    userid: number
-    title: string
-    content: string
-    category: string
-    pic: string
-    createDate: string
+  id?: number;
+  userid: number;
+  title: string;
+  content: string;
+  category: string;
+  pic: string;
+  createDate: string;
 }
 
-export type Category = string
+export type Category = string;
+
+export type UserId = number;

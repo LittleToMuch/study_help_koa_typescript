@@ -1,5 +1,5 @@
 import { query } from "../utils/query";
-import { Tutsau, Category } from "../utils/tutsauType";
+import { Tutsau, UserId } from "../utils/tutsauType";
 
 export const insertTutsau = async (params: Tutsau) => {
   try {
@@ -27,4 +27,20 @@ export const tutsauList = async () => {
     console.warn(error);
     return { code: 400, msg: "未知错误,查看服务器日志" };
   }
+};
+
+export const tutsauByUser = async (userid: UserId) => {
+  try {
+    const selectSQL: string = `select * from tutsau where userid='${userid}'`
+    const data: Tutsau[] = await query(selectSQL)
+    if (data.length) {
+      return { code: 200, data }
+    } else {
+      return { code: 404, msg: '您还没有吐槽哦' }
+    }
+  } catch (error) {
+    console.warn(error);
+    return { code: 400, msg: "未知错误,查看服务器日志" };
+  }
 }
+

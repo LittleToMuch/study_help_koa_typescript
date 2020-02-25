@@ -49,4 +49,19 @@ export const tutsauList = async (ctx: RouterContext, next: any) => {
     console.warn(error);
     ctx.body = { code: 400, msg: "未知错误,查看服务器日志" };
   }
+};
+
+export const tutsauByUser = async (ctx: RouterContext, next: any) => {
+  try {
+    const { userid } = ctx.request.query
+    if (!userid) {
+      ctx.body = { code: 402, msg: '参数不正确' }
+    } else {
+      const data = await TutsauService.tutsauByUser(+userid)
+      ctx.body = data
+    }
+  } catch (error) {
+    console.warn(error);
+    ctx.body = { code: 400, msg: "未知错误,查看服务器日志" };
+  }
 }
