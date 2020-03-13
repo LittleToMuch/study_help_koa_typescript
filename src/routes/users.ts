@@ -7,6 +7,7 @@ const router = new Router();
 router.prefix('/api/users');
 
 router.get('/token', jwt, UsersController.token);
+router.get('/tokenValidate', jwt, UsersController.tokenValidate)
 router.get('/captcha', UsersController.captcha);
 router.post('/register', UsersController.register);
 router.post('/login', UsersController.login);

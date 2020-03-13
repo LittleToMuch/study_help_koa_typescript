@@ -8,6 +8,34 @@ export interface Tutsau {
   createDate: string;
 }
 
+export interface TutsauComment {
+  userid: number
+  tutsauid: number
+  content: string
+}
+
+export interface ListCommentPage {
+  tutsauid: number
+  limit: number
+  offset: number
+}
+
+export interface CollectTutsau {
+  tutsauid: number
+  userid: number
+  createDate: Date
+}
+
+export interface DisCollectTutsau {
+  tutsauid: number
+  userid: number
+}
+
+export interface isCollectTutsau {
+  tutsauid: number
+  userid: number
+}
+
 export type Category = string;
 
 export type UserId = number;

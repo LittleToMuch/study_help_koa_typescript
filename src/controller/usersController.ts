@@ -6,10 +6,24 @@ import { Level } from '../utils/userType'
 
 export const token = async (ctx: Router.RouterContext, next: any) => {
   try {
+    // console.log(ctx.state.user)
+    let data = await UserService.token(ctx.state.user)
+    if (data) {
+      const data = await next()
+      ctx.body = data
+    } else {
+      ctx.body = { code: 1234, msg: '请重新登陆', isAuth: false}
+    }
+  } catch (e) {
+    ctx.body = { code: 1234, msg: '未登录', isAuth: false }
+  }
+};
+
+export const tokenValidate = async (ctx: Router.RouterContext, next: any) => {
+  try {
     let data = await UserService.token(ctx.state.user)
     if (data) {
       ctx.body = { code: 200, data: ctx.state.user.userInfo, msg: '身份有效', isAuth: true }
-      
     } else {
       ctx.body = { code: 1234, msg: '请重新登陆', isAuth: false}
     }

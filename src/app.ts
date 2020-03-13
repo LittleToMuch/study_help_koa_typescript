@@ -13,6 +13,8 @@ import path from 'path'
 import index from './routes/index';
 import users from './routes/users';
 import tutsau from './routes/tutsau';
+import experience from './routes/experience';
+import learning from './routes/learningStrategy';
 
 // koa-session
 app.keys = ['hyh'];
@@ -58,6 +60,8 @@ app.use(async (ctx:Koa.Context, next:Function) => {
 app.use(index.routes()).use(index.allowedMethods());
 app.use(users.routes()).use(users.allowedMethods());
 app.use(tutsau.routes()).use(tutsau.allowedMethods());
+app.use(experience.routes()).use(experience.allowedMethods())
+app.use(learning.routes()).use(learning.allowedMethods())
 
 
 // error-handling
