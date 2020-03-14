@@ -6,7 +6,7 @@ import {
   DisCollectLearning,
   LearningComment,
   ListCommentPage,
-  LikeLearning, DisLikeLearning, isLikeLearning
+  LikeLearning, DisLikeLearning, isLikeLearning, LearningCollection
 } from "../utils/learningStrategyType";
 
 export const insertLearningStrategy = async (params: LearningStrategy) => {
@@ -176,6 +176,28 @@ export const disLikeLearning = async (params: DisLikeLearning) => {
       return { code: 200, msg: '取消收藏成功' }
     } else {
       return { code: 401, msg: '取消收藏失败' }
+    }
+  } catch (error) {
+    console.warn(error);
+    return { code: 400, msg: "未知错误,查看服务器日志" };
+  }
+}
+
+// 我的收藏
+export const myCollect = async (userid: number) => {
+  try {
+    const selectSQL: string = `select * from learning_collection where userid=${userid}`
+    const data = await query(selectSQL)
+    if(data.length) {
+      let res: LearningCollection[] = []
+      for (const item of data) {
+        const selectSql: string = `select * from learningstrategy where id=${item.learningstrategyid}`
+        let result = await query(selectSql)
+        res.push(...result)
+      }
+      return { code: 200, data: res, msg: '查询成功' }
+    } else {
+      return { code: 401, msg: '查询失败' }
     }
   } catch (error) {
     console.warn(error);

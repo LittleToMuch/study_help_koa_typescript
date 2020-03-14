@@ -15,6 +15,7 @@ import users from './routes/users';
 import tutsau from './routes/tutsau';
 import experience from './routes/experience';
 import learning from './routes/learningStrategy';
+import upshow from './routes/upshow'
 
 // koa-session
 app.keys = ['hyh'];
@@ -62,6 +63,7 @@ app.use(users.routes()).use(users.allowedMethods());
 app.use(tutsau.routes()).use(tutsau.allowedMethods());
 app.use(experience.routes()).use(experience.allowedMethods())
 app.use(learning.routes()).use(learning.allowedMethods())
+app.use(upshow.routes()).use(upshow.allowedMethods())
 
 
 // error-handling

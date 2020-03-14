@@ -1,5 +1,5 @@
 import { query } from "../utils/query";
-import { Tutsau, UserId, TutsauComment, ListCommentPage, CollectTutsau, DisCollectTutsau, isCollectTutsau } from "../utils/tutsauType";
+import { Tutsau, UserId, TutsauComment, ListCommentPage, CollectTutsau, DisCollectTutsau, isCollectTutsau, TutsauCollection } from "../utils/tutsauType";
 
 export const insertTutsau = async (params: Tutsau) => {
   try {
@@ -149,6 +149,28 @@ export const isCollection = async (params: isCollectTutsau) => {
     const data = await query(selectSQL)
     if(data.length) {
       return { code: 200, msg: '查询成功' }
+    } else {
+      return { code: 401, msg: '查询失败' }
+    }
+  } catch (error) {
+    console.warn(error);
+    return { code: 400, msg: "未知错误,查看服务器日志" };
+  }
+}
+
+// 我的收藏
+export const myCollect = async (userid: number) => {
+  try {
+    const selectSQL: string = `select * from tutsau_collection where userid=${userid}`
+    const data = await query(selectSQL)
+    if(data.length) {
+      let res: TutsauCollection[] = []
+      for (const item of data) {
+        const selectSql: string = `select * from tutsau where id=${item.tutsauid}`
+        let result = await query(selectSql)
+        res.push(...result)
+      }
+      return { code: 200, data: res, msg: '查询成功' }
     } else {
       return { code: 401, msg: '查询失败' }
     }

@@ -185,7 +185,7 @@ export const dislikeExperience = async (params: DisLikeExperience) => {
   }
 }
 
-// 我的收藏id
+// 我的收藏
 export const myCollect = async (userid: number) => {
   try {
     const selectSQL: string = `select * from experience_collection where userid=${userid}`

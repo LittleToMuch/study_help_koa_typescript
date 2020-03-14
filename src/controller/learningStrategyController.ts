@@ -165,3 +165,16 @@ export const disLikeLearning = async (ctx: RouterContext, next: any) => {
     ctx.body = { code: 400, msg: "未知错误,查看服务器日志" };
   }
 }
+
+// 我的收藏
+export const myCollect = async (ctx: RouterContext, next: any) => {
+  try {
+    const { userid } = ctx.request.query
+    if (!userid) ctx.body = { code: 401, msg: '参数错误' }
+    const data = await LearningStrategyService.myCollect(userid)
+    ctx.body = data
+  } catch (error) {
+    console.warn(error);
+    return { code: 400, msg: "未知错误,查看服务器日志" };
+  }
+}

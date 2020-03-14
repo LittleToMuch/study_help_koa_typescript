@@ -50,3 +50,10 @@ export interface DisLikeLearning {
   learningstrategyid: number
   userid: number
 }
+
+export interface LearningCollection {
+  id: number
+  userid: number
+  learningstrategyid: number
+  createDate: string
+}

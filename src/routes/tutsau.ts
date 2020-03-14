@@ -12,6 +12,7 @@ router.get('/list', TutsauController.tutsauList)
 router.get('/listByUser', TutsauController.tutsauByUser)
 router.get('/details', TutsauController.findTutsau)
 router.get('/listComment', TutsauController.listComment)
+router.get('/myCollection', TutsauController.myCollect) //我的经验收藏
 router.post('/upload', TutsauController.uploadPic)
 router.post('/insert', TutsauController.insertTutsau)
 router.post('/insertComment', TutsauController.insertComment)

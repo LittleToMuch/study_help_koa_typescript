@@ -36,6 +36,13 @@ export interface isCollectTutsau {
   userid: number
 }
 
+export interface TutsauCollection {
+  id: number
+  userid: number
+  tutsauid: number
+  createDate: string
+}
+
 export type Category = string;
 
 export type UserId = number;
