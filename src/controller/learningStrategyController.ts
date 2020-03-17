@@ -1,5 +1,6 @@
 import Router, { RouterContext } from "koa-router";
 import * as LearningStrategyService from "../service/learningStrategyService";
+import * as ExperienceService from "../service/experienceService";
 
 // 添加攻略
 export const insertLearning = async (ctx: RouterContext, next: any) => {
@@ -133,6 +134,19 @@ export const isLike = async (ctx: RouterContext, next: any) => {
     if (!learningstrategyid || !userid) ctx.body = { code: 401, msg: '参数错误' }
     const data = await LearningStrategyService.isLike({ learningstrategyid, userid })
     return data
+  } catch (error) {
+    console.warn(error);
+    ctx.body = { code: 400, msg: "未知错误,查看服务器日志" };
+  }
+}
+
+// 查看点赞列表
+export const likeList = async (ctx: RouterContext, next: any) => {
+  try {
+    const { userid } = ctx.request.query
+    if (!userid) ctx.body = { code: 401, msg: '参数错误' }
+    const data = await LearningStrategyService.likeList(userid)
+    ctx.body = data
   } catch (error) {
     console.warn(error);
     ctx.body = { code: 400, msg: "未知错误,查看服务器日志" };

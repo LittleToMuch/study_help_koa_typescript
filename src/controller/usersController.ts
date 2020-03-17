@@ -119,3 +119,29 @@ export const captcha = async (ctx: RouterContext<any, any>, next: any) => {
   ctx.body = captcha.data
   ctx.session.captcha = captcha.text.toLocaleLowerCase()
 };
+
+
+export const userList = async (ctx: RouterContext, next: any) => {
+  try {
+    const data = await UserService.userList()
+    ctx.body = data
+  } catch (error) {
+    console.warn(error)
+    ctx.body = { code: 400, msg: '未知错误,查看服务器日志' }
+  }
+};
+
+export const delUser = async (ctx: RouterContext, next: any) => {
+  try {
+    const { id } = ctx.request.body
+    if (id) {
+      const data = await UserService.delUser(id)
+      ctx.body = data
+    } else {
+      ctx.body = { code: 401, msg: '参数错误' }
+    }
+  } catch (error) {
+    console.warn(error)
+    ctx.body = { code: 400, msg: '未知错误,查看服务器日志' }
+  }
+};

@@ -17,8 +17,9 @@ router.post('/like', jwt, UsersController.token, LearningController.likeLearning
 router.post('/disLike', jwt, UsersController.token, LearningController.disLikeLearning)
 router.post('/insertComment', LearningController.insertComment)
 router.get('/myCollection', LearningController.myCollect) //我的经验收藏
-router.get('/list', LearningController.selectExperience) // 可查单条也可查多条
+router.get('/list', LearningController.selectExperience) //可查单条也可查多条
 router.get('/listComment', LearningController.listComment)
+router.get('/likeList', LearningController.likeList) //点赞列表
 router.delete('/del', LearningController.deleteExperience)
 
 export default router;

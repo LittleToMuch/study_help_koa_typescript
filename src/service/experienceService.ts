@@ -24,7 +24,7 @@ export const insertExperience = async (params: Experience) => {
 
 export const selectExperience = async (id: number | undefined) => {
   try {
-    const selectSQL = id ? `select * from experience where id=${id}` : `select * from experience`
+    const selectSQL = id ? `select * from experience where id=${id} && del=0` : `select * from experience where del=0`
     const data = await query(selectSQL)
     if(data.length) return { code: 200, data, msg: '查询成功' }
     else return { code: 401, msg: "查询失败" }
@@ -36,9 +36,9 @@ export const selectExperience = async (id: number | undefined) => {
 
 export const deleteExperience = async (id: number) => {
   try {
-    const deleteSQL = `delete from experience where id=${id}`
+    const deleteSQL = `update experience set del=1 where id=${id}`
     const data = await query(deleteSQL)
-    if(data.affectedRows) return { code: 200 }
+    if(data.affectedRows) return { code: 200, msg: '删除成功' }
     else return { code: 401, msg: '删除失败' }
   } catch (error) {
     console.warn(error);
@@ -141,6 +141,22 @@ export const isLike = async (params: isLikeExperience) => {
     const data = await query(selectSQL)
     if(data.length) {
       return { code: 200, msg: '查询成功' }
+    } else {
+      return { code: 401, msg: '查询失败' }
+    }
+  } catch (error) {
+    console.warn(error);
+    return { code: 400, msg: "未知错误,查看服务器日志" };
+  }
+}
+
+// 查看点赞列表
+export const likeList = async (userid: number) => {
+  try {
+    const selectSQL: string = `select * from experience_like el join experience e on el.experienceid=e.id where el.userid=${userid}`
+    const data = await query(selectSQL)
+    if(data.length) {
+      return { code: 200, data, msg: '查询成功' }
     } else {
       return { code: 401, msg: '查询失败' }
     }

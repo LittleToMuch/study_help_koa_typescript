@@ -16,6 +16,7 @@ import tutsau from './routes/tutsau';
 import experience from './routes/experience';
 import learning from './routes/learningStrategy';
 import upshow from './routes/upshow'
+import admin from './routes/admin'
 
 // koa-session
 app.keys = ['hyh'];
@@ -39,7 +40,7 @@ app.use(koaBody({
 
 // body parser
 // app.use(bodyParser({
-//     enableTypes:['json', 'form', 'text']
+//     enableTypes:['json', 'learning', 'text']
 // }));
 
 
@@ -64,7 +65,7 @@ app.use(tutsau.routes()).use(tutsau.allowedMethods());
 app.use(experience.routes()).use(experience.allowedMethods())
 app.use(learning.routes()).use(learning.allowedMethods())
 app.use(upshow.routes()).use(upshow.allowedMethods())
-
+app.use(admin.routes()).use(admin.allowedMethods())
 
 // error-handling
 app.on('error', (err:Error, ctx:Koa.Context) => {

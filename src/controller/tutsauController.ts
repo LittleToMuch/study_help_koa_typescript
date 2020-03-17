@@ -105,11 +105,11 @@ export const findTutsau = async (ctx: RouterContext, next: any) => {
 // 插入评论信息
 export const insertComment = async (ctx: RouterContext, next: any) => {
   try {
-    const { userid, tutsauid, content } = ctx.request.body
-    if (!userid && !tutsauid && !content) {
+    const { userid, commentid, content } = ctx.request.body
+    if (!userid && !commentid && !content) {
       ctx.body = { code: 402, msg: '参数不正确' }
     } else {
-      const data = await TutsauService.insertComment({ userid, tutsauid, content })
+      const data = await TutsauService.insertComment({ userid, tutsauid: commentid, content })
       ctx.body = data
     }
   } catch (error) {
@@ -121,8 +121,8 @@ export const insertComment = async (ctx: RouterContext, next: any) => {
 // 评论列表
 export const listComment = async (ctx: RouterContext, next: any) => {
   try {
-    const { tutsauid, limit, offset } = ctx.request.query
-    const data = await TutsauService.listComment({ tutsauid, limit, offset })
+    const { commentid, limit, offset } = ctx.request.query
+    const data = await TutsauService.listComment({ tutsauid: commentid, limit, offset })
     ctx.body = data
   } catch (error) {
     console.warn(error);

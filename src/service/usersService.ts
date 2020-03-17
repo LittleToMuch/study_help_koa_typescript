@@ -84,3 +84,33 @@ export const updateAvatar = async (params: UpdateAvatar) => {
     return { code: 400, msg: '未知错误,查看服务器日志' }
   }
 }
+
+export const userList = async () => {
+  try {
+    const selectSQL: string = `select * from user where role=0`
+    const res = await query(selectSQL)
+    if(res.length) {
+      return { code: 200, data: res, msg: '查询成功' }
+    } else {
+      return { code: 404, msg: '查询失败' }
+    }
+  } catch (error) {
+    console.warn(error)
+    return { code: 400, msg: '未知错误,查看服务器日志' }
+  }
+}
+
+export const delUser = async (id: number) => {
+  try {
+    const deleteSQL: string = `update user set role=1 where id=${id}`
+    const res = await query(deleteSQL)
+    if (res.affectedRows) {
+      return { code: 200, msg: '删除成功' }
+    } else {
+      return { code: 400, msg: '删除失败' }
+    }
+  } catch (error) {
+    console.warn(error)
+    return { code: 400, msg: '未知错误,查看服务器日志' }
+  }
+}

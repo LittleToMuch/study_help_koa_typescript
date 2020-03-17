@@ -138,6 +138,19 @@ export const isLike = async (ctx: RouterContext, next: any) => {
   }
 }
 
+// 查看点赞列表
+export const likeList = async (ctx: RouterContext, next: any) => {
+  try {
+    const { userid } = ctx.request.query
+    if (!userid) ctx.body = { code: 401, msg: '参数错误' }
+    const data = await ExperienceService.likeList(userid)
+    ctx.body = data
+  } catch (error) {
+    console.warn(error);
+    ctx.body = { code: 400, msg: "未知错误,查看服务器日志" };
+  }
+}
+
 // 点赞
 export const likeExperience = async (ctx: RouterContext, next: any) => {
   try {

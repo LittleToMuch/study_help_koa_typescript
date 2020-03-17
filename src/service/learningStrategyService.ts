@@ -24,7 +24,7 @@ export const insertLearningStrategy = async (params: LearningStrategy) => {
 
 export const selectLearning = async (id: number | undefined) => {
   try {
-    const selectSQL = id ? `select * from learningstrategy where id=${id}` : `select * from learningstrategy`
+    const selectSQL = id ? `select * from learningstrategy where id=${id} && del=0` : `select * from learningstrategy where del=0`
     const data = await query(selectSQL)
     if(data.length) return { code: 200, data, msg: '查询成功' }
     else return { code: 401, msg: "查询失败" }
@@ -36,7 +36,7 @@ export const selectLearning = async (id: number | undefined) => {
 
 export const deleteLearning = async (id: number) => {
   try {
-    const deleteSQL = `delete from learningstrategy where id=${id}`
+    const deleteSQL = `update learningstrategy set del=1 where id=${id}`
     const data = await query(deleteSQL)
     if(data.affectedRows) return { code: 200 }
     else return { code: 401, msg: '删除失败' }
@@ -140,6 +140,22 @@ export const isLike = async (params: isLikeLearning) => {
     const data = await query(selectSQL)
     if(data.length) {
       return { code: 200, msg: '查询成功' }
+    } else {
+      return { code: 401, msg: '查询失败' }
+    }
+  } catch (error) {
+    console.warn(error);
+    return { code: 400, msg: "未知错误,查看服务器日志" };
+  }
+}
+
+// 查看点赞列表
+export const likeList = async (userid: number) => {
+  try {
+    const selectSQL: string = `select * from learning_like ll join learningstrategy l on ll.learningstrategyid=l.id where ll.userid=${userid}`
+    const data = await query(selectSQL)
+    if(data.length) {
+      return { code: 200, data, msg: '查询成功' }
     } else {
       return { code: 401, msg: '查询失败' }
     }

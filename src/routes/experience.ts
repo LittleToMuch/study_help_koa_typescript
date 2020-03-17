@@ -19,6 +19,7 @@ router.post('/insertComment', ExperienceController.insertComment)
 router.get('/myCollection', ExperienceController.myCollect) //我的经验收藏
 router.get('/list', ExperienceController.selectExperience) // 可查单条也可查多条
 router.get('/listComment', ExperienceController.listComment)
+router.get('/likeList', ExperienceController.likeList) //点赞列表
 router.delete('/del', ExperienceController.deleteExperience)
 
 export default router;
