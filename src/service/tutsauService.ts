@@ -1,5 +1,5 @@
 import { query } from "../utils/query";
-import { Tutsau, UserId, TutsauComment, ListCommentPage, CollectTutsau, DisCollectTutsau, isCollectTutsau, TutsauCollection } from "../utils/tutsauType";
+import { Tutsau, UserId, TutsauComment, ListCommentPage, CollectTutsau, DisCollectTutsau, isCollectTutsau, TutsauCollection, Select } from "../utils/tutsauType";
 
 export const insertTutsau = async (params: Tutsau) => {
   try {
@@ -14,15 +14,24 @@ export const insertTutsau = async (params: Tutsau) => {
   }
 };
 
-export const tutsauList = async () => {
+export const tutsauList = async (params: Select) => {
   try {
-    const selectSQL: string = `select * from tutsau`
-    const data: Tutsau[] = await query(selectSQL)
-    if (data.length) {
-      return { code: 200, data }
+    const {id, pageSize, currentPage} = params
+    let selectSQL: string = ''
+    if (id) {
+      selectSQL = `select * from tutsau where id=${id} && del=0`
     } else {
-      return { code: 404, msg: '没有此分类数据' }
+      if (pageSize && currentPage) {
+        selectSQL = `select * from tutsau where del=0 limit ${pageSize} offset ${(currentPage - 1) * pageSize}`
+      } else {
+        selectSQL = `select * from tutsau where del=0`
+      }
     }
+    const totalSQL = `select count(id) from tutsau where del=0`
+    const data = await query(selectSQL)
+    const total = await query(totalSQL)
+    if(data.length) return { code: 200, data, total: total[0]['count(id)'], msg: '查询成功' }
+    else return { code: 401, msg: "查询失败" }
   } catch (error) {
     console.warn(error);
     return { code: 400, msg: "未知错误,查看服务器日志" };

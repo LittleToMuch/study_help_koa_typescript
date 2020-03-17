@@ -51,5 +51,11 @@ export interface SetPassword {
   password: string
 }
 
+export interface Select {
+  id?: number
+  pageSize?: number
+  currentPage?: number
+}
+
 
 

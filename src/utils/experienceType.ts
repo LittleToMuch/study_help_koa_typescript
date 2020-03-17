@@ -7,6 +7,12 @@ export interface Experience {
   userid: number;
 }
 
+export interface Select {
+  id?: number
+  pageSize?: number
+  currentPage?: number
+}
+
 export interface isCollectExperience {
   experienceid: number;
   userid: number;

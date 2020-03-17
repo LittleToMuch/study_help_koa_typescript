@@ -36,8 +36,7 @@ export const insertExperience = async (ctx: RouterContext, next: any) => {
 // 查询
 export const selectExperience = async (ctx: RouterContext, next: any) => {
   try {
-    const { id } = ctx.request.query
-    const data = await ExperienceService.selectExperience(id)
+    const data = await ExperienceService.selectExperience(ctx.request.query)
     ctx.body = data
   } catch (error) {
     console.warn(error);

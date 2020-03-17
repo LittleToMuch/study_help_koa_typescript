@@ -38,8 +38,7 @@ export const insertLearning = async (ctx: RouterContext, next: any) => {
 //查询
 export const selectExperience = async (ctx: RouterContext, next: any) => {
   try {
-    const { id } = ctx.request.query;
-    const data = await LearningStrategyService.selectLearning(id);
+    const data = await LearningStrategyService.selectLearning(ctx.request.query);
     ctx.body = data;
   } catch (error) {
     console.warn(error);

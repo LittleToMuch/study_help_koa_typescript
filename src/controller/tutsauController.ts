@@ -46,7 +46,7 @@ export const insertTutsau = async (ctx: RouterContext, next: any) => {
 // 吐槽列表
 export const tutsauList = async (ctx: RouterContext, next: any) => {
   try {
-    const data = await TutsauService.tutsauList()
+    const data = await TutsauService.tutsauList(ctx.request.query)
     ctx.body = data
   } catch (error) {
     console.warn(error);

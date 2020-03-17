@@ -7,6 +7,12 @@ export interface LearningStrategy {
   userid: number;
 }
 
+export interface Select {
+  id?: number
+  pageSize?: number
+  currentPage?: number
+}
+
 export interface isCollectLearning {
   learningstrategyid: number;
   userid: number;

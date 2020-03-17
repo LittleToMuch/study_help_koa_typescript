@@ -6,7 +6,7 @@ import {
   DisCollectExperience,
   ExperienceComment,
   ListCommentPage,
-  isLikeExperience, LikeExperience, DisLikeExperience, ExperienceCollection
+  isLikeExperience, LikeExperience, DisLikeExperience, ExperienceCollection, Select
 } from "../utils/experienceType";
 
 export const insertExperience = async (params: Experience) => {
@@ -22,11 +22,23 @@ export const insertExperience = async (params: Experience) => {
   }
 };
 
-export const selectExperience = async (id: number | undefined) => {
+export const selectExperience = async (params: Select) => {
   try {
-    const selectSQL = id ? `select * from experience where id=${id} && del=0` : `select * from experience where del=0`
+    const {id, pageSize, currentPage} = params
+    let selectSQL: string = ''
+    if (id) {
+      selectSQL = `select * from experience where id=${id} && del=0`
+    } else {
+      if (pageSize && currentPage) {
+        selectSQL = `select * from experience where del=0 limit ${pageSize} offset ${(currentPage - 1) * pageSize}`
+      } else {
+        selectSQL = `select * from experience where del=0`
+      }
+    }
+    const totalSQL = `select count(id) from experience where del=0`
     const data = await query(selectSQL)
-    if(data.length) return { code: 200, data, msg: '查询成功' }
+    const total = await query(totalSQL)
+    if(data.length) return { code: 200, data, total: total[0]['count(id)'], msg: '查询成功' }
     else return { code: 401, msg: "查询失败" }
   } catch (error) {
     console.warn(error);

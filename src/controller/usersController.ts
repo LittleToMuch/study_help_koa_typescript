@@ -123,7 +123,7 @@ export const captcha = async (ctx: RouterContext<any, any>, next: any) => {
 
 export const userList = async (ctx: RouterContext, next: any) => {
   try {
-    const data = await UserService.userList()
+    const data = await UserService.userList(ctx.request.query)
     ctx.body = data
   } catch (error) {
     console.warn(error)

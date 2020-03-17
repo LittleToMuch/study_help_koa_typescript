@@ -1,5 +1,5 @@
 import { query } from "../utils/query";
-import { Login, Register, Token, UpdateAvatar, SetPassword } from "../utils/userType";
+import { Login, Register, Token, UpdateAvatar, SetPassword, Select } from "../utils/userType";
 import crypto from 'crypto'
 import { sign } from 'jsonwebtoken'
 import JWT from 'koa-jwt'
@@ -85,15 +85,24 @@ export const updateAvatar = async (params: UpdateAvatar) => {
   }
 }
 
-export const userList = async () => {
+export const userList = async (params: Select) => {
   try {
-    const selectSQL: string = `select * from user where role=0`
-    const res = await query(selectSQL)
-    if(res.length) {
-      return { code: 200, data: res, msg: '查询成功' }
+    const {id, pageSize, currentPage} = params
+    let selectSQL: string = ''
+    if (id) {
+      selectSQL = `select * from user where id=${id} && del=0`
     } else {
-      return { code: 404, msg: '查询失败' }
+      if (pageSize && currentPage) {
+        selectSQL = `select * from user where del=0 limit ${pageSize} offset ${(currentPage - 1) * pageSize}`
+      } else {
+        selectSQL = `select * from user where del=0`
+      }
     }
+    const totalSQL = `select count(id) from user where del=0`
+    const data = await query(selectSQL)
+    const total = await query(totalSQL)
+    if(data.length) return { code: 200, data, total: total[0]['count(id)'], msg: '查询成功' }
+    else return { code: 401, msg: "查询失败" }
   } catch (error) {
     console.warn(error)
     return { code: 400, msg: '未知错误,查看服务器日志' }

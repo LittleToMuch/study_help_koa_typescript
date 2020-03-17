@@ -8,6 +8,12 @@ export interface Tutsau {
   createDate: string;
 }
 
+export interface Select {
+  id?: number
+  pageSize?: number
+  currentPage?: number
+}
+
 export interface TutsauComment {
   userid: number
   tutsauid: number
