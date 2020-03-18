@@ -9,5 +9,9 @@ const router = new Router();
 router.prefix('/api/admin');
 
 router.post('/login', AdminController.login)
+router.post('/insert', AdminController.teacherInsert)
+router.post('/uploadAvatar', AdminController.uploadAvatar);
+router.post('/update', AdminController.teacherUpdate)
+router.get('/list', AdminController.teacherList)
 
 export default router

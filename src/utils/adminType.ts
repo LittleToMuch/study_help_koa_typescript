@@ -4,16 +4,21 @@ export interface Admin {
 }
 
 export interface UserInfo {
-  id: number
+  id?: number
   admin_name: string
   name: string
   password: string
-  avatart: string
-  level: number
+  avatar: string
 }
 
 export interface Token {
   userInfo: UserInfo
   exp: number
   iat: number
+}
+
+export interface Select {
+  id?: number
+  pageSize?: number
+  currentPage?: number
 }
