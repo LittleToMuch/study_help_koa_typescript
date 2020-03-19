@@ -13,5 +13,6 @@ router.post('/insert', AdminController.teacherInsert)
 router.post('/uploadAvatar', AdminController.uploadAvatar);
 router.post('/update', AdminController.teacherUpdate)
 router.get('/list', AdminController.teacherList)
+router.post('/del', AdminController.delTeacher)
 
 export default router

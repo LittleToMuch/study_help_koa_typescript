@@ -111,7 +111,7 @@ export const userList = async (params: Select) => {
 
 export const delUser = async (id: number) => {
   try {
-    const deleteSQL: string = `update user set role=1 where id=${id}`
+    const deleteSQL: string = `update user set del=1 where id=${id}`
     const res = await query(deleteSQL)
     if (res.affectedRows) {
       return { code: 200, msg: '删除成功' }

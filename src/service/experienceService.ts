@@ -12,7 +12,7 @@ import {
 export const insertExperience = async (params: Experience) => {
   try {
     const { title, content, createDate, category, pic, userid } = params;
-    const inserSQL: string = `insert into experience (title, content, createDate, category, pic, userid) values ('${title}', '${content}', '${createDate}', '${category}', '${pic}', '${userid}')`;
+    const inserSQL: string = `insert into experience (title, content, createDate, category, pic, userid, del) values ('${title}', '${content}', '${createDate}', '${category}', '${pic}', '${userid}', 0)`;
     const res = await query(inserSQL);
     if (res.insertId) return { code: 200 };
     else return { code: 401, msg: "添加数据失败" };

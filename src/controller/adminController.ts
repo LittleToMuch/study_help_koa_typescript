@@ -57,3 +57,14 @@ export const teacherList = async (ctx: RouterContext, next: any) => {
     ctx.body = { code: 400, msg: '未知错误,查看服务器日志' }
   }
 };
+
+export const delTeacher = async (ctx: RouterContext, next: any) => {
+  try {
+    const { id } = ctx.request.body
+    const data = await AdminService.delTeacher(id)
+    ctx.body = data
+  } catch (error) {
+    console.warn(error)
+    ctx.body = { code: 400, msg: '未知错误,查看服务器日志' }
+  }
+};

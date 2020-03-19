@@ -4,7 +4,7 @@ import { Tutsau, UserId, TutsauComment, ListCommentPage, CollectTutsau, DisColle
 export const insertTutsau = async (params: Tutsau) => {
   try {
     const { title, content, createDate, category, pic, userid } = params;
-    const inserSQL: string = `insert into tutsau (title, content, createDate, category, pic, userid) values ('${title}', '${content}', '${createDate}', '${category}', '${pic}', '${userid}')`;
+    const inserSQL: string = `insert into tutsau (title, content, createDate, category, pic, userid, del) values ('${title}', '${content}', '${createDate}', '${category}', '${pic}', '${userid}', 0)`;
     const res = await query(inserSQL)
     if(res.insertId) return { code: 200 }
     else return {code: 401, msg: '添加数据失败'}
@@ -40,7 +40,7 @@ export const tutsauList = async (params: Select) => {
 
 export const tutsauByUser = async (userid: UserId) => {
   try {
-    const selectSQL: string = `select * from tutsau where userid='${userid}'`
+    const selectSQL: string = `select * from tutsau where userid='${userid}' && del=0`
     const data: Tutsau[] = await query(selectSQL)
     if (data.length) {
       return { code: 200, data }
@@ -55,7 +55,7 @@ export const tutsauByUser = async (userid: UserId) => {
 
 export const delTutsau = async (tutsauId: number) => {
   try {
-    const deleteSQL: string = `delete from tutsau where id='${tutsauId}'`
+    const deleteSQL: string = `update tutsau set del=1 where id='${tutsauId}'`
     const data = await query(deleteSQL)
     if(data.affectedRows) return { code: 200 }
     else return { code: 401, msg: '删除失败' }
@@ -68,7 +68,7 @@ export const delTutsau = async (tutsauId: number) => {
 // 根据id查吐槽
 export const findTutsau = async (tutsauId: number) => {
   try {
-    const selectSQL: string = `select * from tutsau where id='${tutsauId}'`
+    const selectSQL: string = `select * from tutsau where id='${tutsauId}' && del=0`
     const data = await query(selectSQL)
     if(data.length) {
       return { code: 200, data, msg: '查询成功' }

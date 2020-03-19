@@ -37,7 +37,7 @@ export const teacherUpdate = async (params: UserInfo) => {
 export const teacherInsert = async (params: UserInfo) => {
   try {
     const { admin_name, name, password, avatar } = params
-    const insertSQL: string = `insert into admin (admin_name, name, password, avatar, level) values ('${admin_name}', '${name}', '${password}', '${avatar}', 2)`
+    const insertSQL: string = `insert into admin (admin_name, name, password, avatar, level, del) values ('${admin_name}', '${name}', '${password}', '${avatar}', 2, 0)`
     const res = await query(insertSQL)
     if (res.insertId) {
       return { code: 200, msg: '创建成功' }
@@ -55,19 +55,34 @@ export const teacherList = async (params: Select) => {
     const {id, pageSize, currentPage} = params
     let selectSQL: string = ''
     if (id) {
-      selectSQL = `select * from admin where id=${id} && level=2`
+      selectSQL = `select * from admin where id=${id} && level=2 && del=0`
     } else {
       if (pageSize && currentPage) {
-        selectSQL = `select * from admin where level=2 limit ${pageSize} offset ${(currentPage - 1) * pageSize}`
+        selectSQL = `select * from admin where level=2 && del=0 limit ${pageSize} offset ${(currentPage - 1) * pageSize}`
       } else {
-        selectSQL = `select * from admin where level=2`
+        selectSQL = `select * from admin where level=2 && del=0`
       }
     }
-    const totalSQL = `select count(id) from admin where level=2`
+    const totalSQL = `select count(id) from admin where level=2 && del=0`
     const data = await query(selectSQL)
     const total = await query(totalSQL)
     if(data.length) return { code: 200, data, total: total[0]['count(id)'], msg: '查询成功' }
     else return { code: 401, msg: "查询失败" }
+  } catch (error) {
+    console.warn(error)
+    return { code: 400, msg: '未知错误,查看服务器日志' }
+  }
+}
+
+export const delTeacher = async (id: number) => {
+  try {
+    const deleteSQL: string = `update admin set del=1 where id=${id}`
+    const res = await query(deleteSQL)
+    if (res.affectedRows) {
+      return { code: 200, msg: '删除成功' }
+    } else {
+      return { code: 400, msg: '删除失败' }
+    }
   } catch (error) {
     console.warn(error)
     return { code: 400, msg: '未知错误,查看服务器日志' }

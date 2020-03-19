@@ -50,7 +50,7 @@ export const selectExperience = async (ctx: RouterContext, next: any) => {
 export const deleteExperience = async (ctx: RouterContext, next: any) => {
   try {
     const { id } = ctx.request.query
-    const data = await LearningStrategyService.deleteLearning(id)
+    const data = await LearningStrategyService.deleteLearning(+id)
     ctx.body = data
   } catch (error) {
     console.warn(error);
