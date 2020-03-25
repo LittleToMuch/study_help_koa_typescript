@@ -17,6 +17,7 @@ import experience from './routes/experience';
 import learning from './routes/learningStrategy';
 import upshow from './routes/upshow'
 import admin from './routes/admin'
+import video from './routes/video'
 
 // koa-session
 app.keys = ['hyh'];
@@ -66,6 +67,7 @@ app.use(experience.routes()).use(experience.allowedMethods())
 app.use(learning.routes()).use(learning.allowedMethods())
 app.use(upshow.routes()).use(upshow.allowedMethods())
 app.use(admin.routes()).use(admin.allowedMethods())
+app.use(video.routes()).use(video.allowedMethods())
 
 // error-handling
 app.on('error', (err:Error, ctx:Koa.Context) => {
