@@ -1,5 +1,5 @@
 import { query } from "../utils/query";
-import { Video, Select } from '../utils/videoType';
+import { Video, Select, VideoCategory } from '../utils/videoType';
 
 export const videoInsert = async (params: Video) => {
   try {
@@ -38,6 +38,21 @@ export const videoList = async (params: Select) => {
     const total = await query(totalSQL)
     if(data.length) return { code: 200, data, total: total[0]['count(id)'], msg: '查询成功' }
     else return { code: 401, msg: "查询失败" }
+  } catch (error) {
+    console.warn(error);
+    return { code: 400, msg: "未知错误,查看服务器日志" };
+  }
+}
+
+export const videoCategoryList = async (category: VideoCategory) => {
+  try {
+    const selectSQL = `select * from video where category='${category}' && del=0`
+    const data = await query(selectSQL)
+    if (data.length) {
+      return { code: 200, data, msg: '查询成功' }
+    } else {
+      return { code: 401, msg: '查询失败' }
+    }
   } catch (error) {
     console.warn(error);
     return { code: 400, msg: "未知错误,查看服务器日志" };

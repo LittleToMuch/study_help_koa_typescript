@@ -14,3 +14,5 @@ export interface Select {
   pageSize?: number
   currentPage?: number
 }
+
+export type VideoCategory = '数据结构' | '计算机网络' | '软件工程' | '操作系统' | '数据库原理' | '单片机' | '计算机组成原理' | '编译原理'

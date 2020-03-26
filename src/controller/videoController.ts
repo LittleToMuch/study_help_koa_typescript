@@ -50,6 +50,18 @@ export const videoList = async (ctx: RouterContext, next: any) => {
   }
 };
 
+export const videoCategoryList = async (ctx: RouterContext, next: any) => {
+  try {
+    console.log(ctx.request.query)
+    const { category } = ctx.request.query
+    const data = await VideoService.videoCategoryList(category)
+    ctx.body = data
+  } catch (error) {
+    console.warn(error);
+    ctx.body = { code: 400, msg: "未知错误,查看服务器日志" };
+  }
+}
+
 export const videoUpdate = async (ctx: RouterContext, next: any) => {
   try {
     const {
